@@ -1,10 +1,12 @@
 import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kyc_app/core/network/http/dio_client.dart';
 import 'package:kyc_app/core/network/http/http_helper.dart';
 import 'package:kyc_app/core/network/network_info.dart';
 import 'package:kyc_app/core/routes/app_router.dart';
+import 'package:kyc_app/features/auth/data/datasources/auth_local_ds.dart';
 import 'package:kyc_app/features/auth/data/datasources/auth_remote_ds.dart';
 import 'package:kyc_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:kyc_app/features/auth/domain/repositories/auth_repo.dart';
@@ -15,6 +17,8 @@ final di = GetIt.instance;
 
 Future<void> configureDependencies() async {
   di.registerLazySingleton(() => AppRouter());
+  const sharedPreferences = FlutterSecureStorage();
+  di.registerLazySingleton(() => sharedPreferences);
 
   // NETWORK INFO
   di.registerLazySingleton(() => DataConnectionChecker());
@@ -31,6 +35,12 @@ Future<void> configureDependencies() async {
   );
 
   di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di()));
-  di.registerLazySingleton<AuthCubit>(() => AuthCubit(di()));
+  di.registerLazySingleton(
+    () => AuthCubit(loginUseCase: di(), accountLocalDataSource: di()),
+  );
   di.registerLazySingleton<LoginUseCase>(() => LoginUseCase(di()));
+
+  di.registerLazySingleton<AccountLocalDataSourceImpl>(
+    () => AccountLocalDataSourceImpl(sharedPreferences: di()),
+  );
 }

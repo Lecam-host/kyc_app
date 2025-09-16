@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kyc_app/core/routes/page_route.dart';
 import 'package:kyc_app/features/auth/presentation/pages/auth_page.dart';
+import 'package:kyc_app/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:kyc_app/features/splash/presentation/splash_screen.dart';
 
 class AppRouter extends GoRouter {
   AppRouter()
     : super.routingConfig(
-        initialLocation: PageRoutes.auth,
+        initialLocation: PageRoutes.splash,
         observers: <NavigatorObserver>[],
         routingConfig: ValueNotifier<RoutingConfig>(
           RoutingConfig(
@@ -14,6 +16,14 @@ class AppRouter extends GoRouter {
               GoRoute(
                 path: PageRoutes.auth,
                 builder: (context, state) => const AuthPage(),
+              ),
+              GoRoute(
+                path: PageRoutes.splash,
+                builder: (context, state) => const SplashPage(),
+              ),
+              GoRoute(
+                path: PageRoutes.dashboard,
+                builder: (context, state) => const DashboardScreen(),
               ),
             ],
           ),
