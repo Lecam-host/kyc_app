@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kyc_app/core/routes/page_route.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_state.dart';
 
@@ -62,10 +64,13 @@ class _AuthPageState extends State<AuthPage>
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
+            context.go(PageRoutes.dashboard);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Bienvenue ${state.user.email}")),
             );
           } else if (state is AuthError) {
+            context.read<AuthCubit>().getCurrentUser();
+            context.go(PageRoutes.dashboard);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive/hive.dart';
 import 'package:kyc_app/core/di.dart';
 import 'package:kyc_app/core/routes/app_router.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:kyc_app/features/kyc/data/models/kyc_model.dart';
 
 final router = di<AppRouter>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  // await Hive.initFlutter();
+
+  //Hive.registerAdapter(KycModelAdapter());
+  await Hive.openBox<KycModel>("kycBox");
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }

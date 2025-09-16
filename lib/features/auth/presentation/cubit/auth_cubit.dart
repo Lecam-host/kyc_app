@@ -22,6 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
       await accountLocalDataSource.saveData(
         UserModel(id: "1", email: "user.email", token: "user.token"),
       );
+
       emit(AuthError(e.toString()));
     }
   }
@@ -40,7 +41,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void logout() {
-    emit(AuthLoggedOut());
+  Future<void> logout() async {
+    emit(AuthLoading());
+    try {
+      await accountLocalDataSource.deleteData();
+      emit(AuthLoggedOut());
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
   }
 }
