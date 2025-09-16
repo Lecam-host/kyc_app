@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kyc_app/core/di.dart';
 import 'package:kyc_app/core/routes/app_router.dart';
+import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 
 final router = di<AppRouter>();
 void main() async {
@@ -16,14 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => di<AuthCubit>())],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
 
-      builder: (context, child) {
-        return child!;
-      },
-      routerConfig: router,
-      title: 'kyc app',
+        builder: (context, child) {
+          return child!;
+        },
+        routerConfig: router,
+        title: 'kyc app',
+      ),
     );
   }
 }
