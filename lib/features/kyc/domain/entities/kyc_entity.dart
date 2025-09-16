@@ -4,7 +4,7 @@ class KycEntity extends Equatable {
   final String id; // identifiant local
   final String fullName;
   final String documentId;
-  final String? photoPath; // chemin local photo
+  final String? photoPath;
   final bool synced; // indique si c’est synchronisé avec le serveur
 
   const KycEntity({

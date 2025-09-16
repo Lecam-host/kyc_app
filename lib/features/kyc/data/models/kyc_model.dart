@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import '../../domain/entities/kyc_entity.dart';
 
-//part 'kyc_model.g.dart';
+part 'kyc_model.g.dart';
 
 @HiveType(typeId: 1)
 class KycModel extends KycEntity {
