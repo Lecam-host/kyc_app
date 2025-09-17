@@ -1,4 +1,5 @@
 import 'package:kyc_app/features/auth/data/datasources/auth_remote_ds.dart';
+import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/domain/repositories/auth_repo.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -15,4 +16,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout() async {}
+
+  @override
+  Future<UserEntity> register(RegisterDto dto) async {
+    return await remoteDataSource.register(dto);
+  }
 }

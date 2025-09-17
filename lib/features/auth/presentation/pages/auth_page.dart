@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kyc_app/core/routes/page_route.dart';
+import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:kyc_app/features/widgets/form/date_field_widget.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -69,8 +71,6 @@ class _AuthPageState extends State<AuthPage>
               SnackBar(content: Text("Bienvenue ${state.user.email}")),
             );
           } else if (state is AuthError) {
-            context.read<AuthCubit>().getCurrentUser();
-            context.go(PageRoutes.dashboard);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
@@ -148,92 +148,211 @@ class _AuthPageState extends State<AuthPage>
   }
 
   Widget _buildSignUpForm() {
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    final emailController = TextEditingController();
+    final nameController = TextEditingController();
+    final phoneController = TextEditingController();
+    final birthDateController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Inscrivez-vous pour accéder à votre compte",
-            style: TextStyle(color: Colors.black87, fontSize: 16),
-          ),
-          const SizedBox(height: 20),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Nom",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthAuthenticated) {
+            context.go(PageRoutes.dashboard);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Votre compte a bien été cré ${state.user.name}"),
               ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Prenom",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+            );
+          } else if (state is AuthError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
               ),
-            ),
-          ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Inscrivez-vous pour accéder à votre compte",
+                      style: TextStyle(color: Colors.black87, fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Nom complet",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer votre nom complet';
+                        }
+                        return null;
+                      },
+                      controller: nameController,
+                    ),
 
-          const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
+                    // TextField(
+                    //   decoration: InputDecoration(
+                    //     labelText: "Prenom",
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(12),
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 20),
 
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Email",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer votre email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    DateFieldWidget(
+                      controller: birthDateController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer votre date de naissance';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Numero de telephone",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      controller: phoneController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer votre numero de telephone';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
 
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: "Mot de passe",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Mot de passe",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez entrer votre mot de passe';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
 
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: "Confirmer le mot de passe",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Register endpoint not available"),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Confirmer le mot de passe",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      controller: confirmPasswordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veuillez confirmer votre mot de passe';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: state is AuthLoading
+                            ? null
+                            : () {
+                                if (formKey.currentState!.validate()) {
+                                  if (passwordController.text.trim() !=
+                                      confirmPasswordController.text.trim()) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Les mots de passe ne correspondent pas",
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                    return;
+                                  } else {
+                                    context.read<AuthCubit>().register(
+                                      RegisterDto(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text
+                                            .trim(),
+                                        name: nameController.text.trim(),
+                                        phone: phoneController.text.trim(),
+                                        birthDate: birthDateController.text
+                                            .trim(),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: Colors.teal.shade900,
+                        ),
+                        child: state is AuthLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text(
+                                "S'inscrire",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
                 ),
-                backgroundColor: Colors.teal.shade900,
-              ),
-              child: const Text(
-                "S'inscrire",
-                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

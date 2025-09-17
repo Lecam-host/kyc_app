@@ -3,21 +3,47 @@ import 'package:kyc_app/features/auth/domain/entities/user_entity.dart';
 class UserModel extends UserEntity {
   const UserModel({
     required super.id,
+    required super.name,
     required super.email,
-    required super.token,
+    super.phone,
+    super.dob,
+    super.photo,
+    required super.accessToken,
   });
 
-  /// Factory pour créer à partir d’un JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    final userJson = json['user'] ?? {};
     return UserModel(
-      id: json['id'].toString(),
+      id: userJson['id'],
+      name: userJson['name'] ?? '',
+      email: userJson['email'] ?? '',
+      phone: userJson['phone'],
+      dob: userJson['dob'],
+      photo: userJson['photo'],
+      accessToken: json['access_token'] ?? '',
+    );
+  }
+  factory UserModel.fromHiveBase(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      name: json['name'] ?? '',
       email: json['email'] ?? '',
-      token: json['token'] ?? '',
+      phone: json['phone'],
+      dob: json['dob'],
+      photo: json['photo'],
+      accessToken: json['access_token'] ?? '',
     );
   }
 
-  /// Conversion en JSON
   Map<String, dynamic> toJson() {
-    return {'id': id, 'email': email, 'token': token};
+    return {
+      "id": id,
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "dob": dob,
+      "photo": photo,
+      "access_token": accessToken,
+    };
   }
 }

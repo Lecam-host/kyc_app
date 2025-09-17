@@ -39,7 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Connecté en tant que : ${state.user.email}",
+                      "Connecté en tant que : ${state.user.name}",
                       style: const TextStyle(fontSize: 18),
                     ),
                     const SizedBox(height: 20),

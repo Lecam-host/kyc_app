@@ -22,7 +22,7 @@ class AccountLocalDataSourceImpl implements AccountLocalDataSource {
     final local = SecureStorageData<UserModel>(
       StorageConstant.ACCOUNT_CACHED,
       sharedPreferences,
-      fromJson: UserModel.fromJson,
+      fromJson: UserModel.fromHiveBase,
       toJson: (data) => data.toJson(),
     );
     return local.clearData();
@@ -34,7 +34,7 @@ class AccountLocalDataSourceImpl implements AccountLocalDataSource {
       final local = SecureStorageData<UserModel>(
         StorageConstant.ACCOUNT_CACHED,
         sharedPreferences,
-        fromJson: UserModel.fromJson,
+        fromJson: UserModel.fromHiveBase,
         toJson: (data) => data.toJson(),
       );
       return (await local.loadData())!;
@@ -49,7 +49,7 @@ class AccountLocalDataSourceImpl implements AccountLocalDataSource {
     final local = SecureStorageData<UserModel>(
       StorageConstant.ACCOUNT_CACHED,
       sharedPreferences,
-      fromJson: UserModel.fromJson,
+      fromJson: UserModel.fromHiveBase,
       toJson: (data) => data.toJson(),
     );
 

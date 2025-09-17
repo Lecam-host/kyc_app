@@ -13,6 +13,7 @@ import 'package:kyc_app/features/auth/data/datasources/auth_remote_ds.dart';
 import 'package:kyc_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:kyc_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:kyc_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:kyc_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/kyc/data/datatsources/kyc_local_ds.dart';
 import 'package:kyc_app/features/kyc/data/models/kyc_model.dart' show KycModel;
@@ -41,7 +42,11 @@ Future<void> configureDependencies() async {
 
   di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di()));
   di.registerLazySingleton(
-    () => AuthCubit(loginUseCase: di(), accountLocalDataSource: di()),
+    () => AuthCubit(
+      loginUseCase: di(),
+      accountLocalDataSource: di(),
+      registerUsecase: di(),
+    ),
   );
   di.registerLazySingleton<LoginUseCase>(() => LoginUseCase(di()));
 
@@ -53,4 +58,6 @@ Future<void> configureDependencies() async {
   di.registerLazySingleton<KycLocalDataSourceImpl>(
     () => KycLocalDataSourceImpl(di(), di()),
   );
+
+  di.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(di()));
 }
