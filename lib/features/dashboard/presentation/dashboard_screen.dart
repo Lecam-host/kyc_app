@@ -43,6 +43,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: const TextStyle(fontSize: 18),
                     ),
                     const SizedBox(height: 20),
+
+                    ElevatedButton(
+                      onPressed: () {
+                        context.push(PageRoutes.kyc);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                      child: const Text("Terminer votre inscription"),
+                    ),
+                    SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
                         context.read<AuthCubit>().logout();

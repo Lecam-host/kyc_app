@@ -4,4 +4,5 @@ class PageRoutes {
   static const String home = '/home';
   static const String splash = '/splash';
   static const String dashboard = '/dashboard';
+  static const String kyc = '/kycscreen';
 }

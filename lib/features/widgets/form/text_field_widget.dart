@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
-class TextFieldWidget extends StatefulWidget {
-  const TextFieldWidget({super.key, required this.controller});
+class TextFieldWidget extends StatelessWidget {
+  const TextFieldWidget({
+    super.key,
+    required this.controller,
+    required this.labelText,
+    this.validator,
+  });
   final TextEditingController controller;
+  final String labelText;
+  final String? Function(String?)? validator;
 
-  @override
-  State<TextFieldWidget> createState() => _TextFieldWidgetState();
-}
-
-class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
-    return TextField();
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      validator: validator,
+      controller: controller,
+    );
   }
 }

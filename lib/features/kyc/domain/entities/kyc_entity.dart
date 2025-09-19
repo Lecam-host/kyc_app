@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class KycEntity extends Equatable {
-  final String id; // identifiant local
+  final String id;
   final String fullName;
   final String documentId;
   final String? photoPath;
-  final bool synced; // indique si c’est synchronisé avec le serveur
+  final bool synced;
 
   const KycEntity({
     required this.id,

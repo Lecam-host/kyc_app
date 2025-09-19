@@ -6,6 +6,7 @@ import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:kyc_app/features/widgets/form/date_field_widget.dart';
+import 'package:kyc_app/features/widgets/form/text_field_widget.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -163,7 +164,9 @@ class _AuthPageState extends State<AuthPage>
             context.go(PageRoutes.dashboard);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Votre compte a bien été cré ${state.user.name}"),
+                content: Text(
+                  "Votre compte a bien été créé ${state.user.name}",
+                ),
               ),
             );
           } else if (state is AuthError) {
@@ -182,6 +185,7 @@ class _AuthPageState extends State<AuthPage>
               child: Form(
                 key: formKey,
                 child: Column(
+                  spacing: 20,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
@@ -189,13 +193,8 @@ class _AuthPageState extends State<AuthPage>
                       style: TextStyle(color: Colors.black87, fontSize: 16),
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Nom complet",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
+                    TextFieldWidget(
+                      labelText: "Nom complet",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez entrer votre nom complet';
@@ -205,33 +204,16 @@ class _AuthPageState extends State<AuthPage>
                       controller: nameController,
                     ),
 
-                    // const SizedBox(height: 20),
-                    // TextField(
-                    //   decoration: InputDecoration(
-                    //     labelText: "Prenom",
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(12),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: 20),
-
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      controller: emailController,
+                    TextFieldWidget(
+                      labelText: "Email",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez entrer votre email';
                         }
                         return null;
                       },
+                      controller: emailController,
                     ),
-                    const SizedBox(height: 20),
                     DateFieldWidget(
                       controller: birthDateController,
                       validator: (value) {
@@ -241,59 +223,37 @@ class _AuthPageState extends State<AuthPage>
                         return null;
                       },
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Numero de telephone",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      controller: phoneController,
+                    TextFieldWidget(
+                      labelText: "Numero de telephone",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez entrer votre numero de telephone';
                         }
                         return null;
                       },
+                      controller: phoneController,
                     ),
-                    const SizedBox(height: 20),
 
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Mot de passe",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      controller: passwordController,
+                    TextFieldWidget(
+                      labelText: "Mot de passe",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez entrer votre mot de passe';
                         }
                         return null;
                       },
+                      controller: passwordController,
                     ),
-                    const SizedBox(height: 20),
-
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Confirmer le mot de passe",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      controller: confirmPasswordController,
+                    TextFieldWidget(
+                      labelText: "Confirmer le mot de passe",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez confirmer votre mot de passe';
                         }
                         return null;
                       },
+                      controller: confirmPasswordController,
                     ),
-                    const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
