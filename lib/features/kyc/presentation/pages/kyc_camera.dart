@@ -11,6 +11,7 @@ class KycCamera extends StatefulWidget {
     required this.descriptionPicture,
     required this.controller,
     required this.format,
+    this.isSelfie = false,
   });
   final TextEditingController path;
   final String title;
@@ -18,6 +19,7 @@ class KycCamera extends StatefulWidget {
   final String descriptionPicture;
   final OverlayFormat format;
   final KycController controller;
+  final bool isSelfie;
 
   @override
   State<KycCamera> createState() => _KycCameraState();
@@ -35,6 +37,7 @@ class _KycCameraState extends State<KycCamera> {
   @override
   Widget build(BuildContext context) {
     return CameraPage(
+      isSelfie: widget.isSelfie,
       format: widget.format,
       title: widget.title,
       description: widget.description,
@@ -48,7 +51,6 @@ class _KycCameraState extends State<KycCamera> {
               imagePath: value.path,
               onPressed: () {
                 widget.path.text = value.path;
-                controller.goNext(() => setState(() {}));
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

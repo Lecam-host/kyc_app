@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/controller/kyc_controller.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_doc_page.dart';
+import 'package:kyc_app/features/kyc/presentation/pages/kyc_resume_page.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_selfie_page.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_user_info_page.dart';
 
@@ -28,6 +29,7 @@ class _KycScreenState extends State<KycScreen> {
       ),
       KycDocPage(controller: controller),
       KycSelfiePage(controller: controller),
+      KycResumePage(controller: controller),
     ];
     controller.pageCount = pages.length;
   }
@@ -41,21 +43,20 @@ class _KycScreenState extends State<KycScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       bottomSheet: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TextButton(
             onPressed: () => controller.goPrevious(context),
-            child: Text(controller.currentPage > 0 ? "Retour" : "Annuler"),
+            child: Text(controller.currentPage > 0 ? "Précédent" : "Annuler"),
           ),
-          TextButton(
-            onPressed: () => controller.goNext(() => setState(() {})),
-            child: Text(
-              controller.currentPage == pages.length - 1
-                  ? "Terminer"
-                  : "Suivant",
+          if (controller.currentPage != pages.length - 1)
+            TextButton(
+              onPressed: () =>
+                  controller.goNext(() => setState(() {}), pages.length),
+              child: Text("Suivant"),
             ),
-          ),
         ],
       ),
       body: PageView(

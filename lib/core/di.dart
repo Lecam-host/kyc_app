@@ -17,6 +17,8 @@ import 'package:kyc_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/kyc/data/datatsources/kyc_local_ds.dart';
 import 'package:kyc_app/features/kyc/data/models/kyc_model.dart' show KycModel;
+import 'package:kyc_app/features/kyc/data/repositories/kyc_repository_impl.dart';
+import 'package:kyc_app/features/kyc/domain/repositories/kyc_repo.dart';
 
 final di = GetIt.instance;
 
@@ -60,4 +62,7 @@ Future<void> configureDependencies() async {
   );
 
   di.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(di()));
+
+  //kyc repo
+  di.registerLazySingleton<KycRepository>(() => KycRepositoryImpl(di()));
 }

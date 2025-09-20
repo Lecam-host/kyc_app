@@ -12,15 +12,6 @@ class KycInitial extends KycState {}
 
 class KycLoading extends KycState {}
 
-class KycLoaded extends KycState {
-  final List<KycEntity> kycs;
-
-  const KycLoaded(this.kycs);
-
-  @override
-  List<Object?> get props => [kycs];
-}
-
 class KycSuccess extends KycState {
   final String message;
 

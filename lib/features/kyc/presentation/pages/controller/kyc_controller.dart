@@ -13,11 +13,21 @@ class KycController {
 
   int currentPage = 0;
   int pageCount = 0;
-
-  void goNext(VoidCallback onUpdate) {
+  //Navigation methods to go to the next page
+  void goNext(VoidCallback onUpdate, int pageCount) {
     if (currentPage < pageCount - 1) {
       if (currentPage == 0 &&
           userInfoFormKey.currentState?.validate() == true) {
+        progressController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.linear,
+        );
+      } else if (currentPage == 1 && rectoDocPath.text.isNotEmpty) {
+        progressController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.linear,
+        );
+      } else if (currentPage == 2 && selfiePath.text.isNotEmpty) {
         progressController.nextPage(
           duration: const Duration(milliseconds: 300),
           curve: Curves.linear,
@@ -26,6 +36,7 @@ class KycController {
     }
   }
 
+  //Navigation methods to go to the previous page
   void goPrevious(BuildContext context) {
     if (currentPage > 0) {
       progressController.previousPage(

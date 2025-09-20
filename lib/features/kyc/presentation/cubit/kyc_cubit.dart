@@ -2,11 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kyc_app/features/kyc/data/datatsources/kyc_local_ds.dart';
 import 'package:kyc_app/features/kyc/data/models/kyc_model.dart';
 import 'package:kyc_app/features/kyc/domain/entities/kyc_entity.dart';
+import 'package:kyc_app/features/kyc/domain/usecases/kyc_usecase.dart';
+import 'package:kyc_app/features/kyc/presentation/cubit/kyc_state.dart';
 
-class KycCubit extends Cubit<List<KycEntity>> {
+class KycCubit extends Cubit {
   final KycLocalDataSource localDataSource;
+  final KycUseCase kycUseCase;
 
-  KycCubit(this.localDataSource) : super([]);
+  KycCubit(this.localDataSource, this.kycUseCase) : super([]);
 
   Future<void> addKyc(KycEntity kyc) async {
     final model = KycModel(
@@ -32,5 +35,22 @@ class KycCubit extends Cubit<List<KycEntity>> {
     }
     final updatedKycs = await localDataSource.getAllKycs();
     emit(updatedKycs);
+  }
+
+  Future<void> deleteKyc(String id) async {
+    await localDataSource.deleteKyc(id);
+    final allKycs = await localDataSource.getAllKycs();
+    emit(allKycs);
+  }
+
+  Future<void> kycSend(KycModel kyc) async {
+    emit(KycLoading());
+    try {
+      await kycUseCase(kyc);
+
+      emit(KycSuccess(""));
+    } catch (e) {
+      emit(KycError(e.toString()));
+    }
   }
 }
