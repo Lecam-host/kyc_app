@@ -35,7 +35,7 @@ Future<void> configureDependencies() async {
   // HTTP HELPER
   di.registerLazySingleton<DioClient>(() => DioClient());
   di.registerLazySingleton<Dio>(() => DioClient().dio);
-  di.registerLazySingleton<HttpHelper>(() => HttpHelper(di()));
+  di.registerLazySingleton<HttpHelper>(() => HttpHelper(di(), di()));
 
   // AUTH
   di.registerLazySingleton<AuthRemoteDataSource>(

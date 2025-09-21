@@ -48,7 +48,7 @@ class KycResumePage extends StatelessWidget {
 
             child: ElevatedButton.icon(
               onPressed: () {
-                // ici tu enverras le KYC complet à ton API
+               
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("KYC soumis avec succès ✅")),
                 );
