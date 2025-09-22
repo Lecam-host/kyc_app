@@ -29,3 +29,9 @@ class KycError extends KycState {
   @override
   List<Object?> get props => [message];
 }
+
+class KycSavedLocal extends KycState {
+  final KycEntity kyc;
+
+  const KycSavedLocal({required this.kyc});
+}

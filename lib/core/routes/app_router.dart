@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:kyc_app/core/routes/page_route.dart';
 import 'package:kyc_app/features/auth/presentation/pages/auth_page.dart';
 import 'package:kyc_app/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:kyc_app/features/dashboard/presentation/kyc_resume_screen.dart';
+import 'package:kyc_app/features/kyc/data/models/kyc_model.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_screen.dart';
 import 'package:kyc_app/features/splash/presentation/splash_screen.dart';
 
@@ -29,6 +31,13 @@ class AppRouter extends GoRouter {
               GoRoute(
                 path: PageRoutes.kyc,
                 builder: (context, state) => const KycScreen(),
+              ),
+              GoRoute(
+                path: PageRoutes.dashboardKycResume,
+                builder: (context, state) {
+                  final kyc = state.extra as KycModel;
+                  return KycResumeScreen(kyc: kyc);
+                },
               ),
             ],
           ),

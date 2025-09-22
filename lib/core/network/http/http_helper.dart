@@ -66,7 +66,8 @@ class HttpHelper {
         e.type == DioExceptionType.sendTimeout) {
       throw Exception("Timeout de la requête");
     } else if (e.type == DioExceptionType.badResponse) {
-      throw Exception("Erreur API: ${e.response?.statusCode}");
+      throw "${e.response?.statusMessage}";
+      //throw Exception("${e.response?.statusMessage}");
     } else {
       throw Exception("Erreur réseau: ${e.message}");
     }

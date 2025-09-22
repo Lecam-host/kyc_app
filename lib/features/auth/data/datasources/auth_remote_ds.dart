@@ -6,6 +6,7 @@ import 'package:kyc_app/features/auth/domain/entities/user_entity.dart';
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String email, String password);
   Future<UserEntity> register(RegisterDto dto);
+  Future<bool> logout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -22,8 +23,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 201) {
       return UserModel.fromJson(response.data);
+    }
+    if (response.statusCode == 401) {
+      throw "Email ou mot de passe incorrect";
     } else {
-      throw Exception("Erreur API : ${response.statusCode}");
+      throw "Erreur API : ${response.statusMessage}";
     }
   }
 
@@ -34,7 +38,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (response.statusCode == 201) {
       return UserModel.fromJson(response.data);
     } else {
-      throw Exception("Erreur API : ${response.statusCode}");
+      throw Exception("Erreur API : ${response.statusMessage}");
+    }
+  }
+
+  @override
+  Future<bool> logout() async {
+    final response = await dio.post("/logout");
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erreur API : ${response.statusMessage}");
     }
   }
 }

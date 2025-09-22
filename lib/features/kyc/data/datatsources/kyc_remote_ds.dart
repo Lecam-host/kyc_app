@@ -19,7 +19,7 @@ class KycRemoteDataSourceImpl implements KycRemoteDataSource {
     if (response.statusCode == 201) {
       return;
     } else {
-      throw Exception("Erreur API : ${response.statusCode}");
+      throw Exception("Erreur API : ${response.statusMessage}");
     }
   }
 }

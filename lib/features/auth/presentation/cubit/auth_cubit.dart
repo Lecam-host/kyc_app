@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kyc_app/features/auth/data/datasources/auth_local_ds.dart';
 import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/data/models/user_model.dart';
+import 'package:kyc_app/features/auth/domain/entities/user_entity.dart';
 import 'package:kyc_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:kyc_app/features/kyc/presentation/cubit/kyc_cubit.dart';
 import '../../domain/usecases/login_usecase.dart';
 import 'auth_state.dart';
 
@@ -20,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
-      final user = await loginUseCase(email, password);
+      final user = await loginUseCase.call(email, password);
       await accountLocalDataSource.saveData(
         UserModel(
           id: user.id,
@@ -62,13 +65,22 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context, UserEntity user) async {
+    KycCubit kycCubit = context.read<KycCubit>();
     emit(AuthLoading());
     try {
-      await accountLocalDataSource.deleteData();
-      emit(AuthLoggedOut());
+      bool isLoggedOut = await loginUseCase.logout();
+      if (isLoggedOut) {
+        await accountLocalDataSource.deleteData();
+        await kycCubit.deleteKyc();
+        emit(AuthLoggedOut());
+      } else {
+        emit(AuthAuthenticated(user));
+        emit(AuthError("Logout failed"));
+      }
     } catch (e) {
       emit(AuthError(e.toString()));
+      emit(AuthAuthenticated(user));
     }
   }
 }

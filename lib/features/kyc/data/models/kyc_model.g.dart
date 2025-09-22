@@ -17,28 +17,31 @@ class KycModelAdapter extends TypeAdapter<KycModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KycModel(
-      id: fields[0] as String,
-      fullName: fields[1] as String,
-      documentId: fields[2] as String,
-      photoPath: fields[3] as String?,
-      synced: fields[4] as bool,
+      fullName: fields[0] as String,
+      photoPath: fields[1] as String,
+      rectoPath: fields[2] as String,
+      versoPath: fields[3] as String?,
+      nationality: fields[4] as String,
+      birthDate: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, KycModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
       ..write(obj.fullName)
-      ..writeByte(2)
-      ..write(obj.documentId)
-      ..writeByte(3)
+      ..writeByte(1)
       ..write(obj.photoPath)
+      ..writeByte(2)
+      ..write(obj.rectoPath)
+      ..writeByte(3)
+      ..write(obj.versoPath)
       ..writeByte(4)
-      ..write(obj.synced);
+      ..write(obj.nationality)
+      ..writeByte(5)
+      ..write(obj.birthDate);
   }
 
   @override

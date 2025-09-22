@@ -7,53 +7,57 @@ part 'kyc_model.g.dart';
 class KycModel extends KycEntity {
   @override
   @HiveField(0)
-  final String id;
-
-  @override
-  @HiveField(1)
   final String fullName;
 
   @override
+  @HiveField(1)
+  final String photoPath;
+  @override
   @HiveField(2)
-  final String documentId;
-
+  final String rectoPath;
   @override
   @HiveField(3)
-  final String? photoPath;
-
+  final String? versoPath;
   @override
   @HiveField(4)
-  final bool synced;
+  final String nationality;
 
+  @override
+  @HiveField(5)
+  final String birthDate;
+
+  @override
   const KycModel({
-    required this.id,
     required this.fullName,
-    required this.documentId,
-    this.photoPath,
-    this.synced = false,
+    required this.photoPath,
+    required this.rectoPath,
+    this.versoPath,
+    required this.nationality,
+    required this.birthDate,
   }) : super(
-         id: id,
          fullName: fullName,
-         documentId: documentId,
          photoPath: photoPath,
-         synced: synced,
+         rectoPath: rectoPath,
+         versoPath: versoPath,
+         nationality: nationality,
+         birthDate: birthDate,
        );
 
-  factory KycModel.fromJson(Map<String, dynamic> json) {
-    return KycModel(
-      id: json['id'],
-      fullName: json['fullName'],
-      documentId: json['documentId'],
-      photoPath: json['photoPath'],
-      synced: json['synced'] ?? false,
-    );
-  }
-
   Map<String, dynamic> toJson() => {
-    "id": id,
     "fullName": fullName,
-    "documentId": documentId,
     "photoPath": photoPath,
-    "synced": synced,
+    "rectoPath": rectoPath,
+    "versoPath": versoPath,
+    "nationality": nationality,
+    "birthDate": birthDate,
   };
+
+  factory KycModel.fromLocalBase(Map<String, dynamic> json) => KycModel(
+    fullName: json["fullName"],
+    photoPath: json["photoPath"],
+    rectoPath: json["rectoPath"],
+    versoPath: json["versoPath"],
+    nationality: json["nationality"],
+    birthDate: json["birthDate"],
+  );
 }

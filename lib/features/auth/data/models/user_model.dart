@@ -23,7 +23,7 @@ class UserModel extends UserEntity {
       accessToken: json['access_token'] ?? '',
     );
   }
-  factory UserModel.fromHiveBase(Map<String, dynamic> json) {
+  factory UserModel.fromLocalBase(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
       name: json['name'] ?? '',

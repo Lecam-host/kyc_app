@@ -16,9 +16,12 @@ import 'package:kyc_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:kyc_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/kyc/data/datatsources/kyc_local_ds.dart';
+import 'package:kyc_app/features/kyc/data/datatsources/kyc_remote_ds.dart';
 import 'package:kyc_app/features/kyc/data/models/kyc_model.dart' show KycModel;
 import 'package:kyc_app/features/kyc/data/repositories/kyc_repository_impl.dart';
 import 'package:kyc_app/features/kyc/domain/repositories/kyc_repo.dart';
+import 'package:kyc_app/features/kyc/domain/usecases/kyc_usecase.dart';
+import 'package:kyc_app/features/kyc/presentation/cubit/kyc_cubit.dart';
 
 final di = GetIt.instance;
 
@@ -33,13 +36,16 @@ Future<void> configureDependencies() async {
   di.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di()));
 
   // HTTP HELPER
-  di.registerLazySingleton<DioClient>(() => DioClient());
-  di.registerLazySingleton<Dio>(() => DioClient().dio);
+  di.registerLazySingleton<DioClient>(() => DioClient(auth: di()));
+  di.registerLazySingleton<Dio>(() => DioClient(auth: di()).dio);
   di.registerLazySingleton<HttpHelper>(() => HttpHelper(di(), di()));
 
   // AUTH
   di.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(di()),
+  );
+  di.registerLazySingleton<AccountLocalDataSource>(
+    () => AccountLocalDataSourceImpl(secureStorage: di()),
   );
 
   di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di()));
@@ -53,16 +59,29 @@ Future<void> configureDependencies() async {
   di.registerLazySingleton<LoginUseCase>(() => LoginUseCase(di()));
 
   di.registerLazySingleton<AccountLocalDataSourceImpl>(
-    () => AccountLocalDataSourceImpl(sharedPreferences: di()),
+    () => AccountLocalDataSourceImpl(secureStorage: di()),
   );
   di.registerLazySingleton<Box<KycModel>>(() => kycBox);
 
-  di.registerLazySingleton<KycLocalDataSourceImpl>(
-    () => KycLocalDataSourceImpl(di(), di()),
+  di.registerLazySingleton<KycLocalDataSource>(
+    () => KycLocalDataSourceImpl(sharedPreferences: di()),
   );
 
   di.registerLazySingleton<RegisterUsecase>(() => RegisterUsecase(di()));
 
   //kyc repo
   di.registerLazySingleton<KycRepository>(() => KycRepositoryImpl(di()));
+
+  //kyc
+  di.registerLazySingleton<KycRemoteDataSource>(
+    () => KycRemoteDataSourceImpl(di()),
+  );
+
+  di.registerLazySingleton<KycUseCase>(() => KycUseCase(di()));
+
+  // di.registerLazySingleton<KycRemoteDataSource>(
+  //   () => KycRemoteDataSourceImpl(di()),
+  // );
+
+  di.registerLazySingleton<KycCubit>(() => KycCubit(di(), di()));
 }

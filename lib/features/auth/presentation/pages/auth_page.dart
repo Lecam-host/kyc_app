@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kyc_app/core/routes/page_route.dart';
+import 'package:kyc_app/core/utils/form_validator.dart';
 import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kyc_app/features/auth/presentation/cubit/auth_state.dart';
@@ -20,7 +21,9 @@ class _AuthPageState extends State<AuthPage>
   late TabController _tabController;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  final FormValidatorManage _validator = FormValidatorManage();
+  final loginFormKey = GlobalKey<FormState>();
+  final signUpFormKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -81,67 +84,63 @@ class _AuthPageState extends State<AuthPage>
           }
         },
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Connectez-vous pour accéder à votre compte",
-                style: TextStyle(color: Colors.black87, fontSize: 16),
-              ),
-              const SizedBox(height: 30),
+          return Form(
+            key: loginFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Connectez-vous pour accéder à votre compte",
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
+                ),
+                const SizedBox(height: 30),
 
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
+                TextFieldWidget(
+                  controller: _emailController,
                   labelText: "Email",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  validator: (value) => _validator.emaildValidator.call(value),
                 ),
-              ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
+                TextFieldWidget(
+                  controller: _passwordController,
                   labelText: "Mot de passe",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  suffixIcon: const Icon(Icons.visibility_off),
+                  validator: (value) =>
+                      _validator.passwordValidator.call(value),
                 ),
-              ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: state is AuthLoading
-                      ? null
-                      : () {
-                          context.read<AuthCubit>().login(
-                            _emailController.text.trim(),
-                            _passwordController.text.trim(),
-                          );
-                        },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: state is AuthLoading
+                        ? null
+                        : () {
+                            if (loginFormKey.currentState!.validate()) {
+                              context.read<AuthCubit>().login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: Colors.teal.shade900,
                     ),
-                    backgroundColor: Colors.teal.shade900,
+                    child: state is AuthLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Login",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                   ),
-                  child: state is AuthLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                          "Login",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -206,12 +205,8 @@ class _AuthPageState extends State<AuthPage>
 
                     TextFieldWidget(
                       labelText: "Email",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer votre email';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          _validator.emaildValidator.call(value),
                       controller: emailController,
                     ),
                     DateFieldWidget(
@@ -236,22 +231,14 @@ class _AuthPageState extends State<AuthPage>
 
                     TextFieldWidget(
                       labelText: "Mot de passe",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez entrer votre mot de passe';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          _validator.passwordValidator.call(value),
                       controller: passwordController,
                     ),
                     TextFieldWidget(
                       labelText: "Confirmer le mot de passe",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Veuillez confirmer votre mot de passe';
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          _validator.passwordValidator.call(value),
                       controller: confirmPasswordController,
                     ),
                     SizedBox(

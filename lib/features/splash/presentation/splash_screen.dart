@@ -18,7 +18,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   AccountLocalDataSourceImpl accountLocalDataSource =
-      AccountLocalDataSourceImpl(sharedPreferences: di());
+      AccountLocalDataSourceImpl(secureStorage: di());
   UserEntity? currentUser;
   getUserLocaldata() async {
     currentUser = await accountLocalDataSource.loadData();

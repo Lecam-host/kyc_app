@@ -5,42 +5,33 @@ import 'package:kyc_app/features/kyc/domain/entities/kyc_entity.dart';
 import 'package:kyc_app/features/kyc/domain/usecases/kyc_usecase.dart';
 import 'package:kyc_app/features/kyc/presentation/cubit/kyc_state.dart';
 
-class KycCubit extends Cubit {
+class KycCubit extends Cubit<KycState> {
   final KycLocalDataSource localDataSource;
   final KycUseCase kycUseCase;
 
-  KycCubit(this.localDataSource, this.kycUseCase) : super([]);
+  KycCubit(this.localDataSource, this.kycUseCase) : super(KycInitial());
 
   Future<void> addKyc(KycEntity kyc) async {
     final model = KycModel(
-      id: kyc.id,
       fullName: kyc.fullName,
-      documentId: kyc.documentId,
       photoPath: kyc.photoPath,
+      rectoPath: kyc.rectoPath,
+      nationality: kyc.nationality,
+      birthDate: kyc.birthDate,
     );
-    await localDataSource.saveKyc(model);
-    final allKycs = await localDataSource.getAllKycs();
-    emit(allKycs);
+    await localDataSource.saveData(model);
+    emit(KycSavedLocal(kyc: model));
   }
 
   Future<void> loadKycs() async {
-    final allKycs = await localDataSource.getAllKycs();
-    emit(allKycs);
-  }
-
-  Future<void> syncKycs() async {
-    final allKycs = await localDataSource.getAllKycs();
-    for (final kyc in allKycs.where((k) => !k.synced)) {
-      await localDataSource.markAsSynced(kyc.id);
+    final kycdata = await localDataSource.loadData();
+    if (kycdata != null) {
+      emit(KycSavedLocal(kyc: kycdata));
     }
-    final updatedKycs = await localDataSource.getAllKycs();
-    emit(updatedKycs);
   }
 
-  Future<void> deleteKyc(String id) async {
-    await localDataSource.deleteKyc(id);
-    final allKycs = await localDataSource.getAllKycs();
-    emit(allKycs);
+  Future<void> deleteKyc() async {
+    await localDataSource.deleteData();
   }
 
   Future<void> kycSend(KycModel kyc) async {

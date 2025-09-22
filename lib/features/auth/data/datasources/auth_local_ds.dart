@@ -13,16 +13,16 @@ abstract class AccountLocalDataSource {
 }
 
 class AccountLocalDataSourceImpl implements AccountLocalDataSource {
-  final FlutterSecureStorage sharedPreferences;
+  final FlutterSecureStorage secureStorage;
 
-  AccountLocalDataSourceImpl({required this.sharedPreferences});
+  AccountLocalDataSourceImpl({required this.secureStorage});
 
   @override
   Future<void> deleteData() {
     final local = SecureStorageData<UserModel>(
       StorageConstant.ACCOUNT_CACHED,
-      sharedPreferences,
-      fromJson: UserModel.fromHiveBase,
+      secureStorage,
+      fromJson: UserModel.fromLocalBase,
       toJson: (data) => data.toJson(),
     );
     return local.clearData();
@@ -33,8 +33,8 @@ class AccountLocalDataSourceImpl implements AccountLocalDataSource {
     try {
       final local = SecureStorageData<UserModel>(
         StorageConstant.ACCOUNT_CACHED,
-        sharedPreferences,
-        fromJson: UserModel.fromHiveBase,
+        secureStorage,
+        fromJson: UserModel.fromLocalBase,
         toJson: (data) => data.toJson(),
       );
       return (await local.loadData())!;
@@ -48,8 +48,8 @@ class AccountLocalDataSourceImpl implements AccountLocalDataSource {
   Future<void> saveData(UserModel value) async {
     final local = SecureStorageData<UserModel>(
       StorageConstant.ACCOUNT_CACHED,
-      sharedPreferences,
-      fromJson: UserModel.fromHiveBase,
+      secureStorage,
+      fromJson: UserModel.fromLocalBase,
       toJson: (data) => data.toJson(),
     );
 
