@@ -5,6 +5,7 @@ import 'package:kyc_app/features/kyc/domain/entities/kyc_entity.dart';
 import 'package:kyc_app/features/kyc/domain/usecases/kyc_usecase.dart';
 import 'package:kyc_app/features/kyc/presentation/cubit/kyc_state.dart';
 
+/// Gère la logique de soumission et sauvegarde du KYC
 class KycCubit extends Cubit<KycState> {
   final KycLocalDataSource localDataSource;
   final KycUseCase kycUseCase;
@@ -33,6 +34,9 @@ class KycCubit extends Cubit<KycState> {
   Future<void> deleteKyc() async {
     await localDataSource.deleteData();
   }
+
+  /// Envoie le KYC au serveur.
+  /// - Si succès → émet [KycSuccess]
 
   Future<void> kycSend(KycModel kyc) async {
     emit(KycLoading());
