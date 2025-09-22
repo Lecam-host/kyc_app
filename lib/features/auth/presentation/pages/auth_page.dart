@@ -41,13 +41,13 @@ class _AuthPageState extends State<AuthPage>
             const SizedBox(height: 20),
             TabBar(
               controller: _tabController,
-              labelColor: Colors.teal.shade900,
+              // labelColor: Colors.teal.shade900,
               unselectedLabelColor: Colors.grey,
               labelStyle: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-              indicatorColor: Colors.teal.shade900,
+              // indicatorColor: Colors.teal.shade900,
               tabs: [
                 Tab(text: context.tr("se_connecter")),
                 Tab(text: context.tr("s_inscrire")),
@@ -132,7 +132,7 @@ class _AuthPageState extends State<AuthPage>
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      backgroundColor: Colors.teal.shade900,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                     child: state is AuthLoading
                         ? const CircularProgressIndicator(color: Colors.white)
@@ -290,7 +290,7 @@ class _AuthPageState extends State<AuthPage>
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          backgroundColor: Colors.teal.shade900,
+                          backgroundColor: Theme.of(context).primaryColor,
                         ),
                         child: state is AuthLoading
                             ? const CircularProgressIndicator(

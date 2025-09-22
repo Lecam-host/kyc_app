@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +14,7 @@ class DateFieldWidget extends StatelessWidget {
       keyboardType: TextInputType.number,
       maxLength: 10,
       decoration: InputDecoration(
-        labelText: "Date de naissance",
+        labelText: context.tr("date_de_naissance"),
         hintText: "JJ-MM-AAAA",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         counterText: "",

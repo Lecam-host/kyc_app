@@ -10,36 +10,59 @@ Application mobile Flutter permettant de gérer un processus **KYC (Know Your Cu
 
 ---
 
-##  Architecture
+###  Architecture
 
-L’application suit une architecture **Clean Architecture + BLoC (Cubit)** :
+L’application repose sur Clean Architecture + BLoC (Cubit) afin de garantir :
 
-flowchart TD
-    UI["UI (Pages / Widgets)"]
-    Cubit["Cubit / BLoC"]
-    UseCase["UseCases"]
-    Entity["Entities"]
-    Repo["Repository (Impl)"]
-    Remote["Remote DS (API - Dio)"]
-    Local["Local DS (Hive / SecureStorage)"]
+un code modulaire (chaque couche a une responsabilité claire),
 
-    UI --> Cubit
-    Cubit --> UseCase
-    UseCase --> Repo
-    Repo --> Remote
-    Repo --> Local
-    Remote --> Repo
-    Local --> Repo
-    Repo --> Entity
-    Entity --> UseCase
-    UseCase --> Cubit
-    Cubit --> UI
+un code testable (la logique métier peut être testée indépendamment),
 
+un code scalable (facile à faire évoluer).
 
+- Découpage en couches
 
+Presentation (UI + State Management)
 
-L’application suit une Clean Architecture adaptée à Flutter, avec une séparation stricte entre les couches.
-L’objectif est de garantir un code maintenable, testable et scalable.
+Pages (écrans) et Widgets (composants réutilisables).
+
+Cubit/BLoC pour gérer les états (ex: AuthCubit, KycCubit).
+
+Cette couche observe l’état et réagit aux événements de l’utilisateur.
+
+Domain (Business Logic)
+
+Entities : objets métiers purs (ex: UserEntity, KycEntity).
+
+UseCases : encapsulent une action métier (ex: LoginUseCase, SendKycUseCase).
+
+Repositories (interfaces) : définissent les contrats d’accès aux données, sans dépendre d’une implémentation.
+
+Data (Implémentation des données)
+
+Models : mappent les JSON/API ou données locales (ex: UserModel, KycModel).
+
+Repositories Impl. : implémentent les contrats du domaine.
+
+DataSources :
+
+RemoteDataSource : appels API (via Dio).
+
+LocalDataSource : stockage local (SecureStorage).
+
+- Flux de données
+
+L’utilisateur interagit avec l’UI (ex: bouton “Soumettre KYC”).
+
+L’UI appelle un Cubit, qui déclenche un UseCase.
+
+Le UseCase demande les données au Repository.
+
+Le Repository choisit la source (API ou local).
+
+La réponse remonte → UseCase → Cubit → UI.
+
+L’UI se met à jour automatiquement avec le nouvel état.
 
 ### Injection de dépendances avec `get_it`
 - Utilisé comme **Service Locator** pour centraliser la création et la gestion des instances.  
@@ -109,7 +132,7 @@ Avant de commencer, assurez-vous d’avoir installé tout l'environnement necces
 
 ### 2️ Cloner le projet
 
-git clone https://github.com/votre-repo/kyc_app.git
+git clone 
 cd kyc_app
 
 flutter pub get
@@ -128,7 +151,9 @@ L’application prend en charge le mode hors-ligne afin de permettre à l’util
 - `flutter_secure_storage` chiffre automatiquement les données (AES pour Android, Keychain pour iOS).  
 - À chaque démarrage, l’application vérifie si un utilisateur est déjà connecté en lisant les informations dans `SecureStorage`.  
 
+### Internationalisation (i18n) — détection automatique
 
+L’app supporte l'anglais et le français. Elle détecte automatiquement la langue du téléphone au démarrage. Si la langue n’est pas supportée, elle bascule sur une langue de secours (Anglais).
 
 
 ## Librairies utilisées
