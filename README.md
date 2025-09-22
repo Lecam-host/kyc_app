@@ -14,18 +14,27 @@ Application mobile Flutter permettant de gérer un processus **KYC (Know Your Cu
 
 L’application suit une architecture **Clean Architecture + BLoC (Cubit)** :
 
-lib/
-│── core/ # Config globale (routes, services, utils, dio client)
-│── features/
-│ ├── auth/ # Authentification
-│ │ ├── data/ # Models, datasources
-│ │ ├── domain/ # Entities, usecases
-│ │ └── presentation # UI + Cubits
-│ ├── kyc/ # Module KYC
-│ │ ├── data/ # Models, datasources
-│ │ ├── domain/ # Entities, usecases
-│ │ └── presentation # UI + Cubits + Pages
-│── shared/ # Widgets réutilisables
+flowchart TD
+    UI["UI (Pages / Widgets)"]
+    Cubit["Cubit / BLoC"]
+    UseCase["UseCases"]
+    Entity["Entities"]
+    Repo["Repository (Impl)"]
+    Remote["Remote DS (API - Dio)"]
+    Local["Local DS (Hive / SecureStorage)"]
+
+    UI --> Cubit
+    Cubit --> UseCase
+    UseCase --> Repo
+    Repo --> Remote
+    Repo --> Local
+    Remote --> Repo
+    Local --> Repo
+    Repo --> Entity
+    Entity --> UseCase
+    UseCase --> Cubit
+    Cubit --> UI
+
 
 
 
