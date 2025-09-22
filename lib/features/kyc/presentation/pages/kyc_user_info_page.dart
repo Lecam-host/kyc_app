@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_app/features/widgets/form/country_field_widget.dart';
 import 'package:kyc_app/features/widgets/form/date_field_widget.dart';
@@ -31,13 +32,24 @@ class _KycUserInfoPageState extends State<KycUserInfoPage> {
         child: Column(
           spacing: 20,
           children: [
-            const Text("Veuillez renseigner vos informations personnelles"),
+            Text(
+              context.tr("veuillez_renseigner_vos_informations_personnelles"),
+            ),
             TextFieldWidget(
               controller: widget.nameController,
-              labelText: "Nom complet",
+              labelText: context.tr("nom_complet"),
               validator: (value) {
                 return value!.isEmpty
-                    ? "Veuillez renseigner votre nom complet"
+                    ? context.tr("veuillez_renseigner_votre_nom_complet")
+                    : null;
+              },
+            ),
+
+            DateFieldWidget(
+              controller: widget.dateController,
+              validator: (value) {
+                return value!.isEmpty
+                    ? context.tr("veuillez_renseigner_votre_date_de_naissance")
                     : null;
               },
             ),
@@ -49,15 +61,7 @@ class _KycUserInfoPageState extends State<KycUserInfoPage> {
               },
               validator: (value) {
                 return value == null
-                    ? "Veuillez renseigner votre nationalité"
-                    : null;
-              },
-            ),
-            DateFieldWidget(
-              controller: widget.dateController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? "Veuillez renseigner votre date de naissance"
+                    ? context.tr("veuillez_renseigner_votre_nationalite")
                     : null;
               },
             ),

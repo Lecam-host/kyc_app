@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/controller/kyc_controller.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_camera.dart';
@@ -69,8 +70,10 @@ class _KycSelfiePageState extends State<KycSelfiePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SectionTitleCard(
-                        title: 'Photo de profil',
-                        subtitle: 'Positionnez votre visage dans le cadre',
+                        title: context.tr("photo_de_profil"),
+                        subtitle: context.tr(
+                          "positionnez_votre_visage_dans_le_cadre",
+                        ),
                         icon: Icons.face_retouching_natural,
                       ),
 
@@ -205,8 +208,8 @@ class _KycSelfiePageState extends State<KycSelfiePage>
                                 ),
                                 child: Text(
                                   hasPhoto
-                                      ? '✓ Photo validée'
-                                      : '⚠ Photo requise',
+                                      ? "✓ ${context.tr("photo_valid")}"
+                                      : "⚠ ${context.tr("photo_requise")}",
                                   style: TextStyle(
                                     color: hasPhoto
                                         ? const Color(0xFF10B981)
@@ -225,8 +228,12 @@ class _KycSelfiePageState extends State<KycSelfiePage>
                                 ),
                                 child: Text(
                                   hasPhoto
-                                      ? 'Parfait ! Votre photo a été capturée avec succès.'
-                                      : 'Positionnez votre visage dans le cadre pour prendre votre photo.',
+                                      ? context.tr(
+                                          "parfait_votre_photo_a_etee_capturee_avec_succes",
+                                        )
+                                      : context.tr(
+                                          "positionnez_votre_visage_dans_le_cadre_pour_prendre_votre_photo",
+                                        ),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 14,
@@ -258,8 +265,8 @@ class _KycSelfiePageState extends State<KycSelfiePage>
                                     ),
                                     label: Text(
                                       hasPhoto
-                                          ? 'Reprendre la photo'
-                                          : 'Prendre une photo',
+                                          ? context.tr("reprendre_la_photo")
+                                          : context.tr("prendre_la_photo"),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -311,7 +318,7 @@ class _KycSelfiePageState extends State<KycSelfiePage>
             isSelfie: true,
             controller: controller,
             title: "",
-            description: "Positionnez votre visage dans le cadre",
+            description: context.tr("positionnez_votre_visage_dans_le_cadre"),
             descriptionPicture: "",
             path: controller.selfiePath,
             format: OverlayFormat.oval,

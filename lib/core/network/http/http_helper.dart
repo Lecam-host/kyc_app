@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kyc_app/core/network/network_info.dart';
 
 class HttpHelper {
@@ -15,7 +16,7 @@ class HttpHelper {
     Duration timeout = const Duration(seconds: 20),
   }) async {
     if (!await networkInfo.isConnected) {
-      throw Exception("Pas de connexion Internet");
+      throw Exception(tr("pas_de_connexion_internet"));
     }
 
     try {
@@ -39,7 +40,7 @@ class HttpHelper {
     Duration timeout = const Duration(seconds: 20),
   }) async {
     if (!await networkInfo.isConnected) {
-      throw "Pas de connexion Internet";
+      throw tr("pas_de_connexion_internet");
     }
 
     try {
@@ -64,7 +65,7 @@ class HttpHelper {
     if (e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout ||
         e.type == DioExceptionType.sendTimeout) {
-      throw Exception("Timeout de la requête");
+      throw Exception(tr("timeout"));
     } else if (e.type == DioExceptionType.badResponse) {
       throw "${e.response?.statusMessage}";
       //throw Exception("${e.response?.statusMessage}");
@@ -75,9 +76,9 @@ class HttpHelper {
 
   String _handleExceptionError(Exception e) {
     if (e is TimeoutException) {
-      throw "Veuillez verifier votre connexion internet";
+      throw tr("veuillez_verifier_votre_connexion_internet");
     } else {
-      throw "Une erreur s'est produite";
+      throw tr("erreur_api");
     }
   }
 }

@@ -108,7 +108,7 @@ La réponse est renvoyée au Cubit, qui met à jour l’UI via un State (AuthLoa
 Avant de commencer, assurez-vous d’avoir installé tout l'environnement neccessaire pour executer un projet flutter
 
 ### 2️ Cloner le projet
-```bash
+
 git clone https://github.com/votre-repo/kyc_app.git
 cd kyc_app
 
@@ -131,26 +131,36 @@ L’application prend en charge le mode hors-ligne afin de permettre à l’util
 
 
 
-## 📦 Librairies utilisées
+## Librairies utilisées
 
-Voici les principales dépendances utilisées dans ce projet :
+http (^1.5.0) — Appels réseau simples
 
-- **[http](https://pub.dev/packages/http)** (^1.5.0) → Appels réseau simples
-- **[dio](https://pub.dev/packages/dio)** (^5.9.0) → Client HTTP avancé avec interceptors et gestion des erreurs
-- **[flutter_bloc](https://pub.dev/packages/flutter_bloc)** (^9.1.1) → Gestion d’état avec BLoC / Cubit
-- **[flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage)** (^9.2.4) → Stockage sécurisé des tokens et infos sensibles
-- **[go_router](https://pub.dev/packages/go_router)** (^16.2.1) → Navigation déclarative et gestion des routes
-- **[get_it](https://pub.dev/packages/get_it)** → Injection de dépendances (Service Locator)
-- **[data_connection_checker_tv](https://pub.dev/packages/data_connection_checker_tv)** (^0.3.5-nullsafety) → Vérification de la connexion internet
-- **[pretty_dio_logger](https://pub.dev/packages/pretty_dio_logger)** (^1.4.0) → Logger lisible pour les requêtes/réponses HTTP
-- **[flutter_dotenv](https://pub.dev/packages/flutter_dotenv)** (^6.0.0) → Gestion des variables d’environnement (.env)
-- **[equatable](https://pub.dev/packages/equatable)** (^2.0.7) → Simplifie les comparaisons dans les entités et états BLoC
-- **[country_code_picker](https://pub.dev/packages/country_code_picker)** (^3.4.0) → Sélecteur de pays/nationalité avec drapeaux
-- **[camera](https://pub.dev/packages/camera)** (^0.11.2) → Capture de photos et vidéos (KYC documents / selfie)
-- **[permission_handler](https://pub.dev/packages/permission_handler)** (^12.0.1) → Gestion des permissions (caméra, stockage, etc.)
-- **[fluttertoast](https://pub.dev/packages/fluttertoast)** (^8.2.14) → Notifications simples (toast)
-- **[form_field_validator](https://pub.dev/packages/form_field_validator)** (^1.1) → Validations de formulaires
+dio (^5.9.0) — Client HTTP avancé (interceptors, timeout)
 
----
+flutter_bloc (^9.1.1) — Gestion d’état BLoC/Cubit
 
-⚡ Ces librairies assurent la **robustesse**, la **sécurité**, la **gestion hors-ligne**, et une **expérience utilisateur fluide**.
+flutter_secure_storage (^9.2.4) — Stockage sécurisé
+
+go_router (^16.2.1) — Navigation déclarative
+
+get_it — Injection de dépendances
+
+data_connection_checker_tv (^0.3.5-nullsafety) — Vérification connexion
+
+pretty_dio_logger (^1.4.0) — Logs HTTP lisibles
+
+flutter_dotenv (^6.0.0) — Variables d’environnement
+
+equatable (^2.0.7) — Comparaisons d’états/objets
+
+country_code_picker (^3.4.0) — Sélecteur de pays
+
+camera (^0.11.2) — Capture documents / selfie
+
+permission_handler (^12.0.1) — Permissions natives
+
+fluttertoast (^8.2.14) — Notifications Toast
+
+form_field_validator (^1.1) — Validation de formulaires
+
+ Ces librairies assurent la robustesse, la sécurité, la gestion hors-ligne, et une expérience utilisateur fluide.

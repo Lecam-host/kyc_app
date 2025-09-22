@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,10 +10,20 @@ import 'package:kyc_app/features/kyc/presentation/cubit/kyc_cubit.dart';
 final router = di<AppRouter>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await configureDependencies();
+  await EasyLocalization.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
-  runApp(const MyApp());
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+      path: 'assets/lang',
+      fallbackLocale: const Locale('fr', 'FR'),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,6 +38,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+
+        supportedLocales: context.supportedLocales,
 
         builder: (context, child) {
           return child!;

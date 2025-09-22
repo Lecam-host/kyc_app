@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CountrySelectInpunt extends FormField<CountryCode> {
@@ -14,9 +14,12 @@ class CountrySelectInpunt extends FormField<CountryCode> {
            return Column(
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
+               Text("Veuillez renseigner votre nationalité"),
+               SizedBox(height: 10),
                CountryCodePicker(
                  headerText: "",
-                 initialSelection: "",
+                 initialSelection: "CI",
+
                  onChanged: (CountryCode country) {
                    onSelect(country);
                    state.didChange(country); //  met à jour le FormField
@@ -49,7 +52,7 @@ class CountrySelectInpunt extends FormField<CountryCode> {
                            width: 32,
                          ),
                        const SizedBox(width: 10),
-                       Text(country?.name ?? "Sélectionnez un pays"),
+                       Text(country?.name ?? tr("selectionnez_un_pays")),
                        const Spacer(),
                        const Icon(Icons.arrow_drop_down),
                      ],

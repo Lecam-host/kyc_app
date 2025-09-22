@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/controller/kyc_controller.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_doc_page.dart';
@@ -49,13 +50,17 @@ class _KycScreenState extends State<KycScreen> {
         children: [
           TextButton(
             onPressed: () => controller.goPrevious(context),
-            child: Text(controller.currentPage > 0 ? "Précédent" : "Annuler"),
+            child: Text(
+              controller.currentPage > 0
+                  ? context.tr("precedent")
+                  : context.tr("annuler"),
+            ),
           ),
           if (controller.currentPage != pages.length - 1)
             TextButton(
               onPressed: () =>
                   controller.goNext(() => setState(() {}), pages.length),
-              child: Text("Suivant"),
+              child: Text(context.tr("suivant")),
             ),
         ],
       ),

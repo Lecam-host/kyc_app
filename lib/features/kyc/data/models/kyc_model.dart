@@ -11,7 +11,7 @@ class KycModel extends KycEntity {
   });
 
   Map<String, dynamic> toJson() => {
-    "fullName": fullName,
+    "full_name": fullName,
     "photoPath": photoPath,
     "rectoPath": rectoPath,
     "versoPath": versoPath,

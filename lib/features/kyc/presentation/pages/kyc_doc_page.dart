@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/controller/kyc_controller.dart';
 import 'package:kyc_app/features/kyc/presentation/pages/kyc_camera.dart';
@@ -36,9 +37,10 @@ class _KycDocPageState extends State<KycDocPage> {
             children: [
               // En-tête avec titre et description
               SectionTitleCard(
-                title: 'Vérification d\'identité',
-                subtitle:
-                    'Photographiez les deux faces de votre pièce d\'identité',
+                title: context.tr('verification_d_identite'),
+                subtitle: context.tr(
+                  'photographiez_les_deux_faces_de_votre_piece_d_identite',
+                ),
                 icon: Icons.credit_card,
               ),
 
@@ -47,15 +49,17 @@ class _KycDocPageState extends State<KycDocPage> {
               // Section Recto
               _buildDocumentSection(
                 context,
-                title: 'Face avant (Recto)',
-                subtitle: 'Photographiez la face avant de votre document',
+                title: context.tr('face_avant'),
+                subtitle: context.tr(
+                  'photographiez_la_face_avant_de_votre_document',
+                ),
                 imagePath: controller.rectoDocPath.text,
                 icon: Icons.photo_camera_front,
                 color: Theme.of(context).primaryColor,
                 onTap: () => _navigateToCamera(
                   context,
-                  "Prenez une photo recto de la carte d'identité",
-                  "Positionnez votre carte d'identité recto",
+                  context.tr('prenez_une_photo_recto_de_la_carte_d_identite'),
+                  context.tr('prenez_une_photo_verso_de_la_carte_d_identite'),
                   controller.rectoDocPath,
                 ),
                 isRecto: true,
@@ -66,15 +70,17 @@ class _KycDocPageState extends State<KycDocPage> {
               // Section Verso
               _buildDocumentSection(
                 context,
-                title: 'Face arrière (Verso)',
-                subtitle: 'Photographiez la face arrière de votre document',
+                title: context.tr('face_arriere'),
+                subtitle: context.tr(
+                  'photographiez_la_face_arriere_de_votre_document',
+                ),
                 imagePath: controller.versoDocPath.text,
                 icon: Icons.photo_camera_back,
                 color: Theme.of(context).primaryColor,
                 onTap: () => _navigateToCamera(
                   context,
-                  "Prenez une photo verso de la carte d'identité",
-                  "Positionnez votre carte d'identité verso",
+                  context.tr('prenez_une_photo_recto_de_la_carte_d_identite'),
+                  context.tr('prenez_une_photo_verso_de_la_carte_d_identite'),
                   controller.versoDocPath,
                 ),
               ),
@@ -171,7 +177,7 @@ class _KycDocPageState extends State<KycDocPage> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                '⚠ Photo requise',
+                "⚠ ${context.tr('photo_requise')}",
                 style: TextStyle(
                   color: Colors.orange[700],
                   fontWeight: FontWeight.w600,
@@ -215,7 +221,9 @@ class _KycDocPageState extends State<KycDocPage> {
                   size: 20,
                 ),
                 label: Text(
-                  hasImage ? 'Reprendre la photo' : 'Prendre une photo',
+                  hasImage
+                      ? context.tr('reprendre_la_photo')
+                      : context.tr('prendre_la_photo'),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

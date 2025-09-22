@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -48,8 +49,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       context.read<AuthCubit>().logout(context, state.user);
                     },
                     icon: const Icon(Icons.logout, color: Colors.white),
-                    label: const Text(
-                      "Se déconnecter",
+                    label: Text(
+                      context.tr("se_deconnecter"),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -65,8 +66,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.deepPurple,
-                title: const Text(
-                  "Tableau de bord",
+                title: Text(
+                  context.tr("tableau_de_bord"),
                   style: TextStyle(color: Colors.white),
                 ),
                 centerTitle: true,
@@ -137,8 +138,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "Vérification d'identité (KYC)",
+                                Text(
+                                  context.tr("verification_d_identite"),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
@@ -147,8 +148,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 const SizedBox(height: 10),
                                 Text(
                                   kycState is KycSavedLocal
-                                      ? "KYC sauvegardé en local"
-                                      : "Complétez votre inscription",
+                                      ? context.tr("kyc_sauvegarde_en_local")
+                                      : context.tr(
+                                          "completez_votre_inscription",
+                                        ),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: kycState is KycSavedLocal
@@ -171,8 +174,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       }
                                     },
                                     icon: const Icon(Icons.badge),
-                                    label: const Text(
-                                      "Terminer votre KYC",
+                                    label: Text(
+                                      context.tr("terminer_votre_kyc"),
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     style: ElevatedButton.styleFrom(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kyc_app/core/network/http/http_helper.dart';
 import 'package:kyc_app/features/auth/data/dto/register_dto.dart';
 import 'package:kyc_app/features/auth/data/models/user_model.dart';
@@ -25,7 +26,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return UserModel.fromJson(response.data);
     }
     if (response.statusCode == 401) {
-      throw "Email ou mot de passe incorrect";
+      throw tr("email_ou_mot_de_passe_incorrect");
     } else {
       throw "Erreur API : ${response.statusMessage}";
     }
